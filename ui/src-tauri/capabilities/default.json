@@ -1,0 +1,7 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "default",
+  "description": "Fenêtre principale : lecture seule de l'API locale, aucun accès système.",
+  "windows": ["main"],
+  "permissions": ["core:default"]
+}

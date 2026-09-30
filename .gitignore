@@ -1,0 +1,32 @@
+# Dependencies
+node_modules/
+
+# Secrets (keep the template)
+.env
+.env.*
+!.env.example
+
+# Build output
+ui/dist/
+ui/src-tauri/target/
+ui/src-tauri/gen/schemas/
+
+# Local data (the studio itself writes to ~/.night-studio, outside the repo)
+data/
+*.log
+__pycache__/
+*.blend1
+
+# Scratch files
+scratch-*
+
+# Archived first idea (French public-tender agent), kept locally only
+archive/
+BTP Bot.md
+
+# OS / editors
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/

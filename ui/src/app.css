@@ -1,0 +1,83 @@
+@import "tailwindcss";
+
+@plugin "daisyui" {
+  themes: false;
+}
+
+/* Studio de nuit : noir teinté vers le vert de l'accent, un seul accent (vert NVIDIA),
+   l'ambre réservé à ce qui vient de la marque (réactions, goût appris). */
+@plugin "daisyui/theme" {
+  name: "nightstudio";
+  default: true;
+  prefersdark: true;
+  color-scheme: dark;
+  --color-base-100: #0c0e0b;
+  --color-base-200: #131611;
+  --color-base-300: #1e2319;
+  --color-base-content: #e6e9e1;
+  --color-primary: #76b900;
+  --color-primary-content: #0c1400;
+  --color-secondary: #e3ac3b;
+  --color-secondary-content: #1a1204;
+  --color-accent: #76b900;
+  --color-accent-content: #0c1400;
+  --color-neutral: #1a1e17;
+  --color-neutral-content: #c9cfc2;
+  --color-info: #7fb4d9;
+  --color-info-content: #06131c;
+  --color-success: #76b900;
+  --color-success-content: #0c1400;
+  --color-warning: #e3ac3b;
+  --color-warning-content: #1a1204;
+  --color-error: #e5584f;
+  --color-error-content: #1c0605;
+  --radius-selector: 0.5rem;
+  --radius-field: 0.5rem;
+  --radius-box: 0.75rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
+}
+
+@theme {
+  --font-sans: "IBM Plex Sans", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+@layer base {
+  html,
+  body,
+  #app {
+    @apply h-full;
+  }
+  body {
+    @apply bg-base-100 text-base-content font-sans antialiased overflow-hidden text-sm;
+  }
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]) {
+    cursor: pointer;
+  }
+  .num {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+  }
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-base-300 rounded;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+  }
+}

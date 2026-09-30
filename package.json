@@ -1,0 +1,26 @@
+{
+  "name": "night-studio",
+  "version": "0.2.0",
+  "private": true,
+  "description": "Night Studio: an autonomous overnight product-photo studio on one RTX GPU. NVIDIA Nemotron plans and critiques, Blender renders, the agent learns the brand taste.",
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "start": "node --disable-warning=ExperimentalWarning --env-file-if-exists=.env src/studio/main.ts",
+    "add-job": "node --disable-warning=ExperimentalWarning --env-file-if-exists=.env scripts/add-job.ts",
+    "generation": "node --disable-warning=ExperimentalWarning --env-file-if-exists=.env scripts/generation.ts",
+    "digest": "node --disable-warning=ExperimentalWarning --env-file-if-exists=.env scripts/digest.ts",
+    "rushes": "node --disable-warning=ExperimentalWarning --env-file-if-exists=.env scripts/rushes.ts",
+    "clip": "node --disable-warning=ExperimentalWarning --env-file-if-exists=.env scripts/clip.ts",
+    "export": "node --disable-warning=ExperimentalWarning --env-file-if-exists=.env scripts/export.ts",
+    "turntable": "node --disable-warning=ExperimentalWarning --env-file-if-exists=.env scripts/turntable.ts",
+    "record-ui": "node --disable-warning=ExperimentalWarning scripts/record-ui.ts",
+    "chat-id": "node --disable-warning=ExperimentalWarning --env-file-if-exists=.env scripts/chat-id.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "sharp": "^0.34.5"
+  }
+}
