@@ -5,6 +5,7 @@
   import { hypothesisText, imageUrl, parseCritique, type Render } from "../api";
   import ExportPanel from "./ExportPanel.svelte";
   import Viewer3D from "./Viewer3D.svelte";
+  import { onDemo } from "../demo";
 
   // Plein écran : rendu en pleine résolution, navigation ← → dans la liste affichée, Échap pour fermer.
   let { items, openId = $bindable() }: { items: Render[]; openId: number | null } = $props();
@@ -103,6 +104,15 @@
     el.addEventListener("wheel", handler, { passive: false });
     return { destroy: () => el.removeEventListener("wheel", handler) };
   }
+
+  $effect(() =>
+    onDemo((c) => {
+      if (openId === null) return;
+      if (c.type === "lbmode") mode = c.mode;
+      if (c.type === "lbnav") go(c.step);
+      if (c.type === "zoom" && stage) zoomAt(c.scale, c.fx !== undefined ? c.fx * stage.clientWidth : undefined, c.fy !== undefined ? c.fy * stage.clientHeight : undefined);
+    }),
+  );
 
   // Nouveau rendu affiché : on revient à la vue entière.
   $effect(() => {

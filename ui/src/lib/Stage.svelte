@@ -7,6 +7,7 @@
   import FeedbackBox from "./FeedbackBox.svelte";
   import Lightbox from "./Lightbox.svelte";
   import Viewer3D from "./Viewer3D.svelte";
+  import { onDemo } from "../demo";
 
   let { job, renders, onSent }: { job: JobSummary; renders: Render[]; onSent: () => void } = $props();
 
@@ -26,6 +27,27 @@
   let stripMode = $state<"champions" | "all">("champions");
   const stripItems = $derived(stripMode === "champions" ? lineage : renders);
   let lightboxId = $state<number | null>(null);
+
+  let analysis: HTMLDivElement | undefined = $state();
+  $effect(() =>
+    onDemo((c) => {
+      if (c.type === "reset") {
+        view = "champion";
+        pinnedId = null;
+        lightboxId = null;
+        analysis?.scrollTo({ top: 0 });
+      }
+      if (c.type === "view") view = c.view;
+      if (c.type === "strip") stripMode = c.mode;
+      if (c.type === "pin") {
+        const r = lineage.at(c.index);
+        if (r) pinnedId = r.id === champ?.id ? null : r.id;
+      }
+      if (c.type === "unpin") pinnedId = null;
+      if (c.type === "lightbox") lightboxId = c.open ? (focus?.id ?? null) : null;
+      if (c.type === "scroll" && c.target === "stage") analysis?.scrollTo({ top: c.y, behavior: "smooth" });
+    }),
+  );
 
   const CRITERIA: [string, string][] = [
     ["composition", "Composition"],
@@ -169,7 +191,7 @@
   </div>
 
   <!-- Analyse -->
-  <div class="flex min-h-0 flex-col gap-5 overflow-y-auto pr-1">
+  <div bind:this={analysis} class="flex min-h-0 flex-col gap-5 overflow-y-auto pr-1">
     <div>
       <h1 class="text-[26px] leading-tight font-semibold tracking-tight text-balance">{job.name}</h1>
       <p class="mt-1.5 max-w-[60ch] text-pretty text-base-content/60">{job.brief}</p>

@@ -3,6 +3,7 @@
   import gsap from "gsap";
   import { tick } from "svelte";
   import { createFromPrompt, dismissIntake, intakePhotoUrl, retryIntake, uploadPhoto, type Intake } from "../api";
+  import { onDemo, typeInto } from "../demo";
 
   let { intakes, onUploaded }: { intakes: Intake[]; onUploaded: () => void } = $props();
 
@@ -28,6 +29,15 @@
       done: "Joined tonight's shoot",
       failed: "Failed",
     })[i.status];
+
+  $effect(() =>
+    onDemo((c) => {
+      if (c.type === "reset" && dialog.open && !sending) dialog.close();
+      if (c.type === "intake-open") open();
+      if (c.type === "intake-type") typeInto(c.text, (v) => (text = v));
+      if (c.type === "intake-send") send();
+    }),
+  );
 
   function open() {
     error = null;

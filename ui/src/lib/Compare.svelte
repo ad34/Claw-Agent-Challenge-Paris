@@ -1,6 +1,7 @@
 <script lang="ts">
   import { retryImg } from "./retryImg";
   import gsap from "gsap";
+  import { onDemo } from "../demo";
 
   // Avant / après : premier rendu de la nuit contre le champion actuel, séparés par une poignée glissable.
   let { before, after, beforeLabel, afterLabel }: { before: string; after: string; beforeLabel: string; afterLabel: string } = $props();
@@ -19,6 +20,17 @@
     const t = { p: 85 };
     gsap.to(t, { p: 50, duration: 1.2, ease: "power3.inOut", delay: 0.3, onUpdate: () => (pos = t.p) });
   });
+
+  $effect(() =>
+    onDemo((c) => {
+      if (c.type !== "sweep") return;
+      const t = { p: pos };
+      gsap.timeline({ onUpdate: () => (pos = t.p) })
+        .to(t, { p: 8, duration: 1.2, ease: "power2.inOut", onUpdate: () => (pos = t.p) })
+        .to(t, { p: 92, duration: 1.8, ease: "power2.inOut", onUpdate: () => (pos = t.p) })
+        .to(t, { p: 50, duration: 1, ease: "power2.inOut", onUpdate: () => (pos = t.p) });
+    }),
+  );
 
   const onKey = (e: KeyboardEvent) => {
     if (e.key === "ArrowLeft") pos = Math.max(0, pos - 5);

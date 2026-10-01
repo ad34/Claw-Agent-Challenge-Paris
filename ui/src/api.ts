@@ -20,6 +20,7 @@ export interface State {
   champions: number;
   reactions: number;
   nvidia?: { rpm: number; cap: number; limit: number };
+  tour?: { name: string; id: number } | null;
   jobs: JobSummary[];
 }
 

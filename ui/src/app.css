@@ -81,3 +81,12 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+/* App de bureau : pas de sélection de texte accidentelle (sauf dans les champs de saisie). */
+body {
+  user-select: none;
+}
+input,
+textarea {
+  user-select: text;
+}

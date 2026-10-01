@@ -13,6 +13,8 @@ import { recordFeedback } from "./feedback.ts";
 import { dismissIntake, removeJob, retryIntake, runIntake, runPromptIntake } from "./intake.ts";
 
 const PORT = Number(process.env.API_PORT ?? 8787);
+// Visite scriptée de l'interface demandée par `npm run record-ui` (mode démo, pour filmer les rushs).
+let tour: { name: string; id: number } | null = null;
 // Sous Windows, le cache de libvips garde les fichiers ouverts et empêche de les réécrire (miniatures Meshy) : on le coupe.
 sharp.cache(false);
 
@@ -24,6 +26,7 @@ const json: Record<string, (q: URLSearchParams) => unknown> = {
       now: new Date().toISOString(),
       runningSince: start?.ts ?? null,
       nvidia: { rpm: nvidiaCallsLastMinute(), cap: NVIDIA_RPM, limit: 40 },
+      tour,
       current: JSON.parse(getKv("current") ?? "null"),
       renders: one("SELECT count(*) n FROM renders WHERE error IS NULL"),
       failed: one("SELECT count(*) n FROM renders WHERE error IS NOT NULL"),
@@ -82,6 +85,11 @@ export function startApi() {
         const caption = decodeURIComponent(String(req.headers["x-caption"] ?? ""));
         void runIntake(photo, caption, "ui").catch(() => {}); // suivi via /api/intakes
         return void res.writeHead(202, { "Content-Type": "application/json" }).end(JSON.stringify({ ok: true }));
+      }
+      const tourReq = url.pathname.match(/^\/api\/tour\/(\w+)$/);
+      if (req.method === "POST" && tourReq) {
+        tour = { name: tourReq[1], id: Date.now() };
+        return void res.writeHead(200, { "Content-Type": "application/json" }).end(JSON.stringify(tour));
       }
       // Produit décrit sans photo : { prompt }.
       if (req.method === "POST" && url.pathname === "/api/intake-prompt") {

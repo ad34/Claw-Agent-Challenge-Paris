@@ -2,6 +2,7 @@
   import gsap from "gsap";
   import { tick } from "svelte";
   import { parseFeedback, sendFeedback, type Render } from "../api";
+  import { onDemo, typeInto } from "../demo";
 
   // Retour de la marque sur le rendu affiché : réactions rapides + note libre.
   // Le planificateur les concilie avec le directeur artistique (la marque a le dernier mot).
@@ -23,6 +24,13 @@
   let error = $state<string | null>(null);
   let list: HTMLUListElement | undefined = $state();
   const history = $derived(parseFeedback(render).slice().reverse());
+
+  $effect(() =>
+    onDemo((c) => {
+      if (c.type === "feedback-type") typeInto(c.text, (v) => (note = v));
+      if (c.type === "feedback-send") send(null);
+    }),
+  );
 
   async function send(label: string | null) {
     const text = note.trim();

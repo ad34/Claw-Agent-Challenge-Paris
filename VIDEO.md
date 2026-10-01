@@ -33,11 +33,28 @@ Les chiffres à l'écran (rendus, minutes GPU, score de départ → champion) so
 
 Dossier : `C:\Users\nico\.night-studio\rushes\` — 1920×1080, 30 i/s, H.264.
 
+**Chiffres de la nuit du 30 septembre au 1er octobre** (pour l'écran et la voix off) : 1 716 rendus, 171 min de GPU, 56 champions,
+environ 5 appels Nemotron par minute. Catalogue : vase en céramique (62 → 77), succulente (55 → 73), buste en marbre (60 → 75),
+montre à gousset (75 → 82), parfum Noir Éclat (70 → 73), bougie terracotta (60 → 77). Détails dans `manifest.json`.
+
 | Commande | Fichiers |
 |---|---|
 | `npm run rushes` | `lineage_*.mp4`, `flipbook_*.mp4`, `before_after_*.mp4`, `contact_*.png` (planche de tous les rendus), `manifest.json` |
-| `npm run turntable -- <id>` | `turntable_*.mp4` (1080×1350) et `turntable_*_16x9.mp4` : 360° du champion, ≈ 10 min de rendu |
-| `npm run record-ui -- <secondes> <nom>` | `<nom>.mp4` : capture de la fenêtre Night Studio **uniquement**, garder la fenêtre devant |
+| `npm run clip -- <renderId>` | `exports/<produit>/<produit>_r<id>_clip.mp4` (1080×1350, 4 s) : clip héros du champion, caméra en mouvement |
+| `npm run turntable -- <jobId>` | `turntable_*.mp4` (1080×1350) et `turntable_*_16x9.mp4` : 360° du champion, ≈ 10 min de rendu |
+| `npm run record-ui -- <secondes> <nom> [visite]` | `<nom>.mp4` : capture de la fenêtre Night Studio **uniquement**, 1920×1080 natif |
+
+**Captures de l'interface en mode démo.** Les visites sont scriptées dans `ui/src/demo.ts` : l'app se pilote seule, sans souris,
+avec les vraies données. **Écran allumé obligatoire** : un écran en veille ne livre plus d'images, et le script coupe alors l'enregistrement.
+
+| Visite | Commande | Ce qu'on voit |
+|---|---|---|
+| `products` | `npm run record-ui -- 25 ui_products products` | Le catalogue, produit par produit ✅ |
+| `live` | `npm run record-ui -- 32 ui_live live` | Le produit en cours de shooting, journal de l'agent qui défile ✅ |
+| `progress` | `npm run record-ui -- 34 ui_progress progress` | Bougie : champions successifs, avant / après balayé, zoom plein écran ✅ |
+| `three` | `npm run record-ui -- 32 ui_3d three` | Montre : vue 3D temps réel, puis plein écran 3D ✅ |
+| `feedback` | `npm run record-ui -- 22 ui_feedback feedback` | Succulente : note de la marque tapée et envoyée (vraie note, prise en compte par l'agent) ✅ — couper avant 15 s |
+| `intake` | `npm run record-ui -- 32 ui_intake intake` | Nouveau produit décrit en une phrase : la tasse en grès (vrai envoi à Meshy) ✅ |
 
 Rushs à filmer à la main : la photo du produit au téléphone, et l'écran du téléphone au moment du bilan Telegram
 (vérifier qu'aucune notification ou conversation perso n'apparaît).
